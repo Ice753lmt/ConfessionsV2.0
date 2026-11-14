@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f28c28">
+  <meta name="description" content="Confessions Trường THCS & THPT Ngã Sáu">
+  <title>Confessions Ngã Sáu</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div id="splash" class="splash">
+    <div class="brand-mark">C</div>
+    <h1>Confessions</h1>
+    <p>THCS & THPT Ngã Sáu</p><span class="loader"></span>
+  </div>
+  <main id="authView" class="auth-shell hidden">
+    <section class="auth-art">
+      <div class="art-orb orb-one"></div>
+      <div class="art-orb orb-two"></div>
+      <div class="art-copy"><span class="eyebrow">NGÃ SÁU • SCHOOL COMMUNITY</span>
+        <h1>Nơi những điều<br><em>chưa nói</em> được lắng nghe.</h1>
+        <p>Một góc nhỏ để bạn chia sẻ câu chuyện, suy nghĩ và cảm xúc của mình.</p>
+        <div class="art-pill">♡ Ẩn danh khi gửi confession</div>
+      </div>
+    </section>
+    <section class="auth-panel">
+      <div class="auth-card">
+        <div class="mini-brand"><span class="brand-mark small">C</span><span>Confessions <b>Ngã Sáu</b></span></div>
+        <div id="loginForm">
+          <h2>Chào mừng trở lại!</h2>
+          <p class="muted">Đăng nhập để tiếp tục kết nối.</p>
+          <label>Email</label><input id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email">
+          <label>Mật khẩu</label><input id="loginPassword" type="password" placeholder="Nhập mật khẩu"
+            autocomplete="current-password">
+          <button id="loginBtn" class="btn primary full">Đăng nhập</button>
+          <p class="switch-line">Chưa có tài khoản? <button class="text-btn" data-switch="signup">Đăng ký ngay</button>
+          </p>
+        </div>
+        <div id="signupForm" class="hidden">
+          <h2>Tạo tài khoản</h2>
+          <p class="muted">Bắt đầu hành trình chia sẻ của bạn.</p>
+          <label>Họ tên hiển thị <button class="help-btn" id="nameHelp"
+              aria-label="Hướng dẫn đặt tên">?</button></label><input id="signupName"
+            placeholder="Ví dụ: Ngọc Nhung 9A1" autocomplete="name">
+          <label>Email</label><input id="signupEmail" type="email" placeholder="you@example.com" autocomplete="email">
+          <label>Mật khẩu</label><input id="signupPassword" type="password" placeholder="Tối thiểu 6 ký tự"
+            autocomplete="new-password">
+          <button id="signupBtn" class="btn primary full">Tạo tài khoản</button>
+          <p class="switch-line">Đã có tài khoản? <button class="text-btn" data-switch="login">Đăng nhập</button></p>
+        </div>
+        <p class="auth-foot">Bằng việc tiếp tục, bạn đồng ý sử dụng nền tảng văn minh và tôn trọng.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="appView" class="app hidden">
+    <header class="topbar"><a class="brand" href="#"><span
+          class="brand-mark small">C</span><span><b>Confessions</b><small>THCS & THPT Ngã Sáu</small></span></a>
+      <div class="top-actions"><button id="themeBtn" class="icon-btn" title="Đổi giao diện">◐</button>
+        <div class="user-menu"><button id="userBtn" class="user-chip"><span class="avatar">☺</span><span
+              id="userLabel">Tài khoản</span><span>⌄</span></button>
+          <div id="userDropdown" class="dropdown hidden">
+            <div class="dropdown-caption">Đang đăng nhập</div><button id="quickLogout">↪ Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="side-caption">MENU CHÍNH</div><button class="nav-item active" data-page="home"><span>⌂</span> Trang
+          chủ</button><button class="nav-item" data-page="feed"><span>▤</span> Bảng tin</button><button
+          class="nav-item admin-only hidden" data-page="review"><span>✓</span> Duyệt bài <i
+            id="pendingBadge">0</i></button><button class="nav-item" data-page="settings"><span>⚙</span> Cài
+          đặt</button>
+          
+        <div class="sidebar-note"><span>✦</span><b>Góc nhỏ Ngã Sáu</b>
+          <p>Chia sẻ chân thành, lan tỏa điều tích cực.</p>
+        </div>
+      </aside>
+      <section class="content">
+        <section id="page-home" class="page">
+          <div class="welcome-banner">
+            <div><span class="eyebrow">HELLO, NGÃ SÁU!</span>
+              <h1>Xin chào, <span id="welcomeName">bạn</span> <span>✦</span></h1>
+              <p>Hôm nay bạn có điều gì muốn chia sẻ không?</p>
+            </div>
+            <div class="welcome-spark">✧</div>
+          </div>
+          <div class="identity-line">Bạn đang ở tư cách <b id="identityName">...</b></div>
+          <div class="section-heading">
+            <div>
+              <h2>Gửi lời muốn nói</h2>
+              <p class="muted">Thông điệp của bạn sẽ được ẩn danh trên bảng tin.</p>
+            </div><span class="soft-tag">♡ Confession</span>
+          </div>
+          <button class="btn secondary small-btn reload-btn" data-refresh="home">
+            <span class="reload-symbol">↻</span> Tải lại
+          </button>
+          <div class="composer card"><textarea id="confessionText" maxlength="3000"
+              placeholder="Viết điều bạn muốn chia sẻ tại đây..."></textarea>
+            <div class="composer-bottom"><span id="charCount">0/3000</span><button id="sendConfession"
+                class="btn primary">Gửi confession <span>➜</span></button></div>
+          </div>
+          <div class="guideline"><span>✧</span>
+            <div><b>Cùng xây dựng cộng đồng tích cực</b>
+              <p>Không đăng tải thông tin riêng tư, xúc phạm, bắt nạt hoặc nội dung gây tổn hại đến người khác.</p>
+            </div>
+          </div>
+        </section>
+        <section id="page-feed" class="page hidden">
+          <div class="page-heading">
+            <div><span class="eyebrow">COMMUNITY WALL</span>
+              <h1>Bảng tin</h1>
+              <p class="muted">Những lời nhắn đã được nhà trường duyệt.</p>
+            </div><button class="btn secondary small-btn reload-btn" data-refresh="feed">
+              <span class="reload-symbol">↻</span> Tải lại
+            </button>
+          </div>
+          <div id="feedList" class="post-list"></div>
+        </section>
+        <section id="page-review" class="page hidden">
+          <div class="page-heading">
+            <div><span class="eyebrow">ADMIN WORKSPACE</span>
+              <h1>Quản lý confession</h1>
+              <p class="muted">Kiểm duyệt nội dung trước khi xuất hiện công khai.</p>
+              <br><button class="btn secondary small-btn reload-btn" data-refresh="review">
+              <span class="reload-symbol">↻</span> Tải lại</br>
+            </button>
+            </div>
+          </div>
+          <div class="tabs"><button class="tab active" data-status="pending">Chưa duyệt <span
+                id="pendingCount">0</span></button><button class="tab" data-status="all">Tất cả</button><button
+              class="tab" data-status="approved">Đã duyệt</button><button class="tab" data-status="rejected">Không
+              duyệt</button></div>
+          <div class="bulkbar"><label class="check-label"><input type="checkbox" id="selectAll"> Chọn tất
+              cả</label><span id="selectedCount">0 đã chọn</span><button id="bulkApprove"
+              class="btn primary small-btn">✓ Duyệt bài đã chọn</button></div>
+          <div id="reviewList" class="review-list"></div>
+        </section>
+        <section id="page-settings" class="page hidden">
+          <div class="page-heading">
+
+            </button>
+
+            <div><span class="eyebrow">YOUR ACCOUNT</span>
+              <h1>Cài đặt</h1>
+              <p class="muted">Quản lý thông tin và trải nghiệm của bạn.</p>
+              <br><button class="btn secondary small-btn reload-btn"
+        data-refresh="settings">
+  <span class="reload-symbol">↻</span> Tải lại
+</button></br>
+            </div>
+          </div>
+          <div class="settings-card card">
+            <div class="settings-title"><span class="settings-icon">☺</span>
+              <div>
+                <h3>Thông tin cá nhân</h3>
+                <p class="muted">Tên hiển thị trong phần bình luận.</p>
+              </div>
+            </div><label>Họ tên hiển thị</label><input id="settingsName"><button id="saveName" class="btn primary">Lưu
+              thay đổi</button>
+          </div>
+          <div class="settings-card card">
+            <div class="settings-title"><span class="settings-icon">◐</span>
+              <div>
+                <h3>Giao diện</h3>
+                <p class="muted">Tùy chỉnh sáng hoặc tối.</p>
+              </div>
+            </div><button id="settingsTheme" class="btn secondary">Chuyển sáng / tối</button>
+          </div>
+          <div class="settings-card card danger-card">
+            <div class="settings-title"><span class="settings-icon">↪</span>
+              <div>
+                <h3>Đăng xuất</h3>
+                <p class="muted">Kết thúc phiên đăng nhập hiện tại.</p>
+              </div>
+            </div><button id="logoutBtn" class="btn secondary">Đăng xuất</button>
+          </div>
+          <div class="settings-card card danger-card">
+            <div class="settings-title"><span class="settings-icon">⌫</span>
+              <div>
+                <h3>Xóa tài khoản</h3>
+                <p class="muted">Thao tác này không thể hoàn tác.</p>
+              </div>
+            </div><button id="deleteAccountBtn" class="btn danger">Xóa tài khoản</button>
+          </div>
+        </section>
+      </section>
+    </div>
+    <nav class="mobile-nav"><button class="active" data-page="home">⌂<small>Trang chủ</small></button><button
+        data-page="feed">▤<small>Bảng tin</small></button><button class="admin-only hidden"
+        data-page="review">✓<small>Duyệt bài</small></button><button data-page="settings">⚙<small>Cài
+          đặt</small></button></nav>
+  </div>
+  <div id="modal" class="modal hidden">
+    <div class="modal-card"><button id="modalClose" class="modal-close">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
